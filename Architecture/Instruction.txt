@@ -1,34 +1,89 @@
-                         bus
- +-------+               |||
- | clock |               |||
- +-------+               |||
-     |                   |||
- +-------+  +--------+   |||
- |address|=>|address |<=>|||
- |counter|  |register|   |||
- +-------+  +--------+   |||
-
 0: NOP
-1: MOV [FROM REG] [TO REG]	- Read data from a register to another register
-2: ADD 						- Adds B register to A register
-3: NEG						- Turns A register negative
-4: JMP [ADDRESS]			- Jump immediate
-5: JOF						- Jump if overflow
-6: JEZ						- Jump if equal zero 
-7: PSH						- Push data from A register to FILO stack
-8: POP						- Pop data from FILO stack and write A register
-9: INP						- Read data from input and write A register
-A: OUT						- Read data from A register and write output
-B: 
-C:
-D:
+1: LDA [DATA]               - Load next value of program EEPROM to A register
+2: LAP [ADDRESS]            - Take next value as pointer and load data from program EEPROM to A register
+3: STA [ADDRESS]            - Take next value as pointer and Store data from A register to program EEPROM
+4: LDB [DATA]               - Load next value of program EEPROM to B register
+5: CAL 						- Make a calculation between A and B register and store to A register 
+6: JMP [ADDRESS]			- Jump immediate
+7: JOF						- Jump if overflow
+8: JEZ						- Jump if equal zero 
+9: PSH						- Push data from A register to FILO stack
+A: POP						- Pop data from FILO stack and write A register
+B: INP						- Read data from input and write A register
+C: OUT						- Read data from A register and write output
+D: 
 E:
 F: HLT
 
-Registers can moveable:
-	0: A Register R/W
-	1: B Register W
-	2: Address Register W
-	3: Program EEPROM R/W
+
+                       bus
+      +------------+   |||   +----------------+
+      |instruction |<=>|||<=>|   A register   |
+      |register    |   |||   +----------------+       
+      +------------+   |||   +-----------+  ||
+              ||       |||==>|calculation|  ||
+              \/       |||   | register  |  ||
+         +---------+   |||   +-----------+  ||
+         |microcode|   |||         ||       ||
+         |EEPROM   |   |||         \/       \/
+         +---------+   |||   +----------------+
+              /\       |||<==|       ALU      |
+              ||       |||   +----------------+
+  +-----+  +-------+   |||        /\     
+  |clock|--|address|<=>|||        ||     
+  +-----+  |counter|   |||   +----------+
+           +-------+   |||==>|B register|
+          +--------+   |||   +----------+
+          |address |<=>|||
+          |register|   |||
+          +--------+   |||
+              ||       |||
+              \/       |||
+          +--------+   |||
+          |program |<=>|||
+          |EEPROM  |   |||
+          +--------+   |||
+
+Microcode Page Flags:
+	ALU:
+		-Overflow
+		-Output Zero
+
+Microcode Flags:
+	Clock : 
+		-Halt 
+	Address Counter: 
+		-Count up
+		-Read
+	Address Register: 
+		-Read
+		-Write
+	Program EEPROM: 
+		-Read
+		-Write
+	Instruction Register:
+		-Read
+		-Write
+	A Register:
+		-Read
+		-Write
+	B Register:
+		-Write
+	Calculation Register:
+		-Write
+	ALU:
+		-Read
 
 
+Data moveable places:
+	0: A Register
+	1: B Register
+	2: Immediate 
+	3: Pointer
+
+
+Calculations:
+	0x0 - ADD / 0x4 - AND / 0x8 - SUB / 0xC - NAN 
+	0x1 - INC / 0x5 - OR  / 0x9 - DEC / 0xD - NOR
+	0x2 - SFH / 0x6 - XOR / 0xA - SFL / 0xE - XNR
+	0x3 - A2A / 0x7 - B2A / 0xB - ANT / 0xF - BNT
