@@ -1,0 +1,34 @@
+                         bus
+ +-------+               |||
+ | clock |               |||
+ +-------+               |||
+     |                   |||
+ +-------+  +--------+   |||
+ |address|=>|address |<=>|||
+ |counter|  |register|   |||
+ +-------+  +--------+   |||
+
+0: NOP
+1: MOV [FROM REG] [TO REG]	- Read data from a register to another register
+2: ADD 						- Adds B register to A register
+3: NEG						- Turns A register negative
+4: JMP [ADDRESS]			- Jump immediate
+5: JOF						- Jump if overflow
+6: JEZ						- Jump if equal zero 
+7: PSH						- Push data from A register to FILO stack
+8: POP						- Pop data from FILO stack and write A register
+9: INP						- Read data from input and write A register
+A: OUT						- Read data from A register and write output
+B: 
+C:
+D:
+E:
+F: HLT
+
+Registers can moveable:
+	0: A Register R/W
+	1: B Register W
+	2: Address Register W
+	3: Program EEPROM R/W
+
+
