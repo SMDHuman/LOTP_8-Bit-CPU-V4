@@ -1,19 +1,19 @@
 0: NOP
-1: LDA [DATA]         - Load next value of program EEPROM to A register
-2: LAP [ADDRESS]      - Take next value as pointer and load data from program EEPROM to A register
-3: STA [ADDRESS]      - Take next value as pointer and Store data from A register to program EEPROM
-4: LDB [DATA]         - Load next value of program EEPROM to B register
+1: LDA [DATA]        	- Load next value of program EEPROM to A register
+2: LAP [ADDRESS]     	- Take next value as pointer and load data from program EEPROM to A register
+3: STA [ADDRESS]     	- Take next value as pointer and Store data from A register to program EEPROM
+4: LDB [DATA]        	- Load next value of program EEPROM to B register
 5: CAL [CALCULATION]	- Make a calculation between A and B register and store to A register 
-6: JMP [ADDRESS]			- Jump immediate
-7: JOF [ADDRESS]			- Jump if overflow
-8: JEZ [ADDRESS]			- Jump if equal zero 
-9: PSH								- Push data from A register to FILO stack
-A: POP								- Pop data from FILO stack and write A register
-B: INP								- Read data from input and write A register
-C: OUT								- Read data from A register and write output
+6: JMP [ADDRESS]		- Jump immediate
+7: JOF [ADDRESS]		- Jump if overflow
+8: JEZ [ADDRESS]		- Jump if equal zero 
+9: PSH					- Push data from A register to FILO stack
+A: POP					- Pop data from FILO stack and write A register
+B: INP					- Read data from input and write A register
+C: OUT					- Read data from A register and write output
 D: 
 E:
-F: HLT								- Stops clock ticking
+F: HLT					- Stops clock ticking
 
 
                        bus
@@ -28,11 +28,11 @@ F: HLT								- Stops clock ticking
        <-|EEPROM   |   |||         \/       \/
        <-+---------+   ||| 8 +----------------+
               /\       |||<==|       ALU      |
-              ||8      |||   +----------------+
-  +-----+  +-------+ 8 |||        /\     
-  |clock|--|address|<=>|||        ||8    
-  +-----+  |counter|   ||| 8 +----------+          
-           +-------+   |||==>|B register|         
+              ||4      |||   +----------------+
++-----+  +---------+ 8 |||        /\     
+|clock|--|12address|<=>|||        ||8    
++-----+  | counter |   ||| 8 +----------+          
+         +---------+   |||==>|B register|         
           +--------+ 8 |||   +----------+         
           |address |<==||| 8 +--------+ 8+-------+                    
           |register|   |||<=>| stack  |<=| stack |                         
@@ -44,10 +44,6 @@ F: HLT								- Stops clock ticking
           | EEPROM |   ||| 8 +---------------+      
           +--------+   |||==>|output register|== = >   
                        |||   +---------------+-- - >   
-                       |||
-                       |||
-                       |||
-
 
 
 Microcode Page Flags:
@@ -56,31 +52,6 @@ Microcode Page Flags:
 		-Output Zero
 
 Microcode Flags:
-	Clock : 
-		-Halt 
-	Address Counter: 
-		-Count up
-	Stack Counter:
-		-Count Up
-		-Count Down
-
-	Writes:
-		0: - - -
-		1: Address Counter
-		2: Address Register
-		3: Program EEPROM
-		4: Instruction Register
-		5: A Register
-		6: B Register
-		7: Calculation Register
-		8: Output Register
-		9: Stack EEPROM
-		A: - - -
-		B: - - -
-		C: - - -
-		D: - - -
-		E: - - -
-		F: - - -
 	Reads:
 		0: - - -
 		1: Address Counter
@@ -98,6 +69,32 @@ Microcode Flags:
 		D: - - -
 		E: - - -
 		F: - - -
+	Writes:
+		0: - - -
+		1: Address Counter
+		2: Address Register
+		3: Program EEPROM
+		4: Instruction Register
+		5: A Register
+		6: B Register
+		7: Calculation Register
+		8: Output Register
+		9: Stack EEPROM
+		A: - - -
+		B: - - -
+		C: - - -
+		D: - - -
+		E: - - -
+		F: - - -
+	Clock : 
+		-Halt 
+	Address Counter: 
+		-Count up
+	Stack Counter:
+		-Count Up
+		-Count Down
+	12 Bit Address Counter:
+		-Next Instruction
 
 
 
