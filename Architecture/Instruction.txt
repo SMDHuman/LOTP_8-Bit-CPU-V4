@@ -1,8 +1,8 @@
 0: NOP
-1: LDA [DATA]        	- Load next value of program EEPROM to A register
-2: LAP [ADDRESS]     	- Take next value as pointer and load data from program EEPROM to A register
-3: STA [ADDRESS]     	- Take next value as pointer and Store data from A register to program EEPROM
-4: LDB [DATA]        	- Load next value of program EEPROM to B register
+1: LDA [DATA]        	- Load next value of program Memory to A register
+2: LAP [ADDRESS]     	- Take next value as pointer and load data from program Memory to A register
+3: STA [ADDRESS]     	- Take next value as pointer and Store data from A register to program Memory
+4: LDB [DATA]        	- Load next value of program Memory to B register
 5: CAL [CALCULATION]	- Make a calculation between A and B register and store to A register 
 6: JMP [ADDRESS]		- Jump immediate
 7: JOF [ADDRESS]		- Jump if overflow
@@ -25,7 +25,7 @@ F: HLT					- Stops clock ticking
               \/       |||   | register  |  ||8
        <-+---------+   |||   +-----------+  ||
        <-|microcode|   |||         ||4      ||
-       <-|EEPROM   |   |||         \/       \/
+       <-|Memory   |   |||         \/       \/
        <-+---------+   ||| 8 +----------------+
               /\       |||<==|       ALU      |
               ||4      |||   +----------------+
@@ -36,12 +36,12 @@ F: HLT					- Stops clock ticking
           +--------+ 8 |||   +----------+         
           |address |<==||| 8 +--------+ 8+-------+                    
           |register|   |||<=>| stack  |<=| stack |                         
-          +--------+   |||   | EEPROM |  |counter|
+          +--------+   |||   | Memory |  |counter|
               ||8      |||   +--------+  +-------+
               \/       ||| 8 +---------------+       
           +--------+ 8 |||<==|input register |<== = =
           |program |==>|||   +---------------+<-- - -   
-          | EEPROM |   ||| 8 +---------------+      
+          | Memory |   ||| 8 +---------------+      
           +--------+   |||==>|output register|== = >   
                        |||   +---------------+-- - >   
 
@@ -55,11 +55,11 @@ Microcode Flags:
 	Reads:
 		0: - - -
 		1: Address Counter
-		2: Program EEPROM
+		2: Program Memory
 		3: Instruction Register
 		4: A Register
 		5: Input Register
-		6: Stack EEPROM
+		6: Stack Memory
 		7: ALU
 		8: - - -
 		9: - - -
@@ -73,13 +73,13 @@ Microcode Flags:
 		0: - - -
 		1: Address Counter
 		2: Address Register
-		3: Program EEPROM
+		3: Program Memory
 		4: Instruction Register
 		5: A Register
 		6: B Register
 		7: Calculation Register
 		8: Output Register
-		9: Stack EEPROM
+		9: Stack Memory
 		A: - - -
 		B: - - -
 		C: - - -
@@ -94,7 +94,7 @@ Microcode Flags:
 		-Count Up
 		-Count Down
 	12 Bit Address Counter:
-		-Next Instruction
+		-Reset Microcode
 
 
 
