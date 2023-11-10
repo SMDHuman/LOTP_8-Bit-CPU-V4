@@ -1,0 +1,40 @@
+areg = 5
+breg = 3
+do
+	areg++
+	PRINT
+always
+halt
+
+ \/
+
+LDA 5
+LDB 3
+LOOP: INC 
+OUT
+JMP LOOP
+HLT
+ 
+ \/
+
+0 LDA
+1 5
+2 LDB
+3 3
+4 CAL INC
+5 OUT
+6 JMP
+7 4
+8 HLT
+
+ \/
+
+00000001
+00000101
+00000100
+00000011
+00010101
+00001100
+00000110
+00000100
+00001111
