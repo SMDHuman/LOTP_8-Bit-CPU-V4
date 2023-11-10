@@ -1,10 +1,13 @@
-LAP X
-LDB 20
+lap X
+ldb Y
 LOOP: INC 
-OUT
-JUMP LOOP
-STA ADRS+
-ADRS: JUMPEZ 0
-loop1: SETCAL ADD
-HALT
-X:
+out
+jump LOOP
+sta ADRS+
+ADRS: jumpez 0
+loop1: 
+setcal ADD
+halt
+jump loop1
+X: 10
+Y: nop

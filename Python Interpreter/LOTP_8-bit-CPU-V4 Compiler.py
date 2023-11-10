@@ -48,7 +48,7 @@ calculations = ["ADD", "INC", "SHIFTH", "A2A", "AND", "OR", "XOR", "B2A",
 programMEM = [0]*256
 address = 0
 pointers = {}
-for line in lines:
+for i, line in enumerate(lines):
 	command = None
 	arg = None
 	if(":" in line[0]):
@@ -56,15 +56,17 @@ for line in lines:
 			command = line[1]
 			arg = line[2] if len(line) > 2 else None
 
-		if(line[0] in pointers): print("ERROR:\n Same two pointers at different addresses")
-		else: 					 pointers[line[0]] = address
+		if(line[0][:-1] in pointers): 
+			print("ERROR:\n Same two pointers at different addresses\n", i, "-", " ".join(line))
+			exit()
+		else: 
+			pointers[line[0][:-1]] = address
 	else:
 		command = line[0]
 		arg = line[1] if len(line) > 1 else None
 	
 	if(command == None): continue
-	print(command)
-
+	command = command.upper()
 	if(command == "LDA"):
 		programMEM[address] = "LDA"
 		programMEM[address+1] = arg
@@ -117,6 +119,22 @@ for line in lines:
 		address += 1
 	elif(command == "NOP"):
 		address += 1
+	elif(command.isdigit()):
+		programMEM[address] = int(command)
+		address += 1
+
+	if(address > 255):
+		print("ERROR:\n runout of memory")
+		exit()
+
+
+
+
+for i, data in enumerate(programMEM):
+	stripedData = str(data).replace("+", "").replace("-", "")
+	if(stripedData in pointers.keys()):
+		programMEM[i] = pointers[stripedData] + data.count("+") - data.count("-")
+
 
 print(pointers)
 [print(i, ":", n) for i, n in enumerate(programMEM)]
