@@ -97,9 +97,22 @@ Microcode Flags:
 		-Reset Microcode
 
 
-
 Calculations:
-	0x0 - ADD / 0x4 - AND / 0x8 - SUB / 0xC - NAN 
-	0x1 - INC / 0x5 - ORG / 0x9 - DEC / 0xD - NOR
-	0x2 - SFH / 0x6 - XOR / 0xA - SFL / 0xE - XNR
-	0x3 - A2A / 0x7 - B2A / 0xB - ANT / 0xF - BNT
+	 `1b
+	0000 : A
+	0001 : A + B
+	0010 : A + 1
+	0011 : A + B + 1
+	0100 : `(A)
+	0101 : `(A + B)
+	0110 : `(A + 1)
+	0111 : `(A + B + 1)
+	 `ss
+	1000 : A | B
+	1001 : A & B
+	1010 : A ^ B
+	1011 : A >> 1
+	1100 : `(A | B)
+	1101 : `(A & B)
+	1110 : `(A ^ B)
+	1111 : `(A >> 1)

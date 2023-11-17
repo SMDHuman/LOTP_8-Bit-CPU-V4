@@ -6,22 +6,7 @@ LDA "name/number" 	- load given value on its next address to A Register
 LAP "name" 			- load value with given address from ram to A Register
 STA "name" 			- Store value with given address from ram from A Register
 LDB "name/number"	- load given value on its next address to B Register   
-ADD
-SUB
-INC
-DEC
-SHIFTH
-SHIFTL
-A2A
-B2A
-ANOT
-BNOT
-OR
-NOR
-AND
-NAND
-XOR
-XNOR
+...
 SETCAL "CAL"
 JUMP "name"
 JUMPOF"name"
