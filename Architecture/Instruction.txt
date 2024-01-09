@@ -98,21 +98,19 @@ Microcode Flags:
 
 
 Calculations:
-	 `1b
-	0000 : A
-	0001 : A + B
-	0010 : A + 1
-	0011 : A + B + 1
-	0100 : `(A)
-	0101 : `(A + B)
-	0110 : `(A + 1)
-	0111 : `(A + B + 1)
-	 `ss
-	1000 : A | B
-	1001 : A & B
-	1010 : A ^ B
-	1011 : A >> 1
-	1100 : `(A | B)
-	1101 : `(A & B)
-	1110 : `(A ^ B)
-	1111 : `(A >> 1)
+	0000 : ADD - A+B
+	0001 : SUB - A-B
+	0010 : INC - Increase A
+	0011 : DEC - Decrease A
+	0100 : RTL - Rotate Low
+	0101 : RTH - Rotate High
+	0110 : B2A - B to A
+	0111 : NEG - Two's complement -A
+	1000 : AND
+	1001 : OR
+	1010 : XOR
+	1011 : NOT
+	1100 :
+	1101 :
+	1110 :
+	1111 :
