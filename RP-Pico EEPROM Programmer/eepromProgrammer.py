@@ -103,7 +103,7 @@ for line in file.readlines()[1:]:
             goto(address)
             pushData(data)
             address += 1
-    print(f"{address}/{2**15}")
+    print(f"{address}/{2**15} - %{round(address*100/(2**15-1), 1)}")
 
 
 disable()
