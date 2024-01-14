@@ -28,8 +28,9 @@ with open("exampleCode.txt", "r") as f:
 	while([] in lines): lines.remove([])
 print(lines)
 
-calculations = ["ADD", "INC", "SHIFTH", "A2A", "AND", "OR", "XOR", "B2A",
-               "SUB", "DEC", "SHIFTL", "ANOT", "NAND", "NOR", "XNOR", "BNOT"]
+calculations = ["ADD", "SUB", "INC", "DEC", "ROTLOW", "ROTHIGH", "B2A", "NEG",
+               "AND", "OR", "XOR", "NOT"]
+
 programMEM = [0]*256
 address = 0
 pointers = {}
