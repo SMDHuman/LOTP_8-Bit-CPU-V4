@@ -1,8 +1,8 @@
-0: NOP
-1: LDA [DATA]        	- Load next value of program Memory to A register
-2: LAP [ADDRESS]     	- Take next value as pointer and load data from program Memory to A register
-3: STA [ADDRESS]     	- Take next value as pointer and Store data from A register to program Memory
-4: LDB [DATA]        	- Load next value of program Memory to B register
+0: NOP					- Noting
+1: LDA [DATA]			- Load next value of program Memory to A register
+2: LAP [ADDRESS]		- Take next value as pointer and load data from program Memory to A register
+3: STA [ADDRESS]		- Take next value as pointer and Store data from A register to program Memory
+4: LDB [DATA]			- Load next value of program Memory to B register
 5: CAL [CALCULATION]	- Make a calculation between A and B register 
 6: ATA 					- Store ALU's calculation to A Register
 7: JMP [ADDRESS]		- Jump immediate
@@ -31,11 +31,11 @@ F: HLT					- Stops clock ticking
               ||4      |||   +----------------+
 +-----+  +---------+ 8 |||        /\     
 |clock|--|12address|<=>|||        ||8    
-+-----+  | counter |   ||| 8 +----------+          
-         +---------+   |||==>|B register|         
-          +--------+ 8 |||   +----------+         
-          |address |<==||| 8 +--------+ 8+-------+                    
-          |register|   |||<=>| stack  |<=| stack |                         
++-----+  | counter |   ||| 8 +----------+ 
+         +---------+   |||==>|B register|
+          +--------+ 8 |||   +----------+
+          |address |<==||| 8 +--------+ 8+-------+
+          |register|   |||<=>| stack  |<=| stack |
           +--------+   |||   | Memory |  |counter|
               ||8      |||   +--------+  +-------+
               \/       ||| 8 +---------------+       
