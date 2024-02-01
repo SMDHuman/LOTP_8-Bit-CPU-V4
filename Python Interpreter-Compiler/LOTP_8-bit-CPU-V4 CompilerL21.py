@@ -9,7 +9,7 @@ LDB "name/number"	- load given value on its next address to B Register
 ...
 SETCAL "CAL"
 JUMP "name"
-JUMPOF"name"
+JUMPOF "name"
 JUMPEZ "name"
 PUSH
 POP
@@ -18,7 +18,7 @@ OUTPUT
 HALT
 """
 
-with open("exampleCode.txt", "r") as f:
+with open("exampleCodeL2.txt", "r") as f:
 	lines = f.readlines()
 	for i, line in enumerate(lines):
 		line = line.replace("\n", "")
@@ -33,6 +33,7 @@ calculations = ["ADD", "SUB", "INC", "DEC", "ROTLOW", "ROTHIGH", "B2A", "NEG",
 
 programMEM = [0]*256
 address = 0
+lastCal = ""
 pointers = {}
 for i, line in enumerate(lines):
 	command = None
@@ -70,12 +71,17 @@ for i, line in enumerate(lines):
 		programMEM[address+1] = arg
 		address += 2
 	elif(command in calculations):
-		programMEM[address] = f"CAL,{calculations.index(command)}"
-		programMEM[address+1] = "ATA"
-		address += 2
-	elif(command == "SETCAL"):
-		programMEM[address] = f"CAL,{calculations.index(arg)}"
+		if(lastCal != calculations.index(command)):
+			programMEM[address] = f"CAL,{calculations.index(command)}"
+			lastCal = calculations.index(command)
+			address += 1
+		programMEM[address] = "ATA"
 		address += 1
+	elif(command == "SETCAL"):
+		if(lastCal != calculations.index(arg)):
+			programMEM[address] = f"CAL,{calculations.index(arg)}"
+			lastCal = calculations.index(arg)
+			address += 1
 	elif(command == "JUMP"):
 		programMEM[address] = "JMP"
 		programMEM[address+1] = arg
@@ -124,3 +130,9 @@ for i, data in enumerate(programMEM):
 
 print(pointers)
 [print(i, ":", n) for i, n in enumerate(programMEM)]
+
+with open("exampleCodeL1.txt", "w") as f:
+	for i, n in enumerate(programMEM):
+		n = " ".join((str(n)+",").split(",")[:-1])
+		f.write(f"{i} {n}\n")
+	f.close()

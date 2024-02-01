@@ -1,3 +1,4 @@
+LEVEL3
 areg = 5
 breg = 3
 do
@@ -7,7 +8,7 @@ always
 halt
 
  \/
-
+LEVEL 2
 LDA 5
 LDB 3
 LOOP: INC 
@@ -16,7 +17,7 @@ JMP LOOP
 HLT
  
  \/
-
+LEVEL 1
 0 LDA
 1 5
 2 LDB
@@ -28,7 +29,7 @@ HLT
 8 HLT
 
  \/
-
+LEVEL 0 
 00000001
 00000101
 00000100

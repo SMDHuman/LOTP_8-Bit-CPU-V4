@@ -9,5 +9,6 @@ loop1:
 setcal ADD
 halt
 jump loop1
+ADD
 X: 10
 Y: nop
