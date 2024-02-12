@@ -1,6 +1,6 @@
 0: NOP					- Noting
-1: LDA [DATA]			- Load next value of program Memory to A register
-2: LAP [ADDRESS]		- Take next value as pointer and load data from program Memory to A register
+1: LDA [DATA]        	- Load next value of program Memory to A register
+2: LAP [ADDRESS]     	- Take next value as pointer and load data from program Memory to A register
 3: STA [ADDRESS]		- Take next value as pointer and Store data from A register to program Memory
 4: LDB [DATA]			- Load next value of program Memory to B register
 5: CAL [CALCULATION]	- Make a calculation between A and B register 
@@ -14,34 +14,34 @@ C: INP					- Read data from input and write A register
 D: OUT					- Read data from A register and write output
 E: 
 F: HLT					- Stops clock ticking
-			
-			++===================================++
-           4||         bus						 ||
-      +------------+ 8 ||| 8 +----------+        ||
-      |instruction |<==|||<=>|A register|        ||
-      |register    |   |||   +----------+        ||    
-      +------------+   |||            ||         ||
-              ||4      |||            ||         ||
-              \/       |||            ||8        ||
-       <-+---------+   |||            ||         ||
-       <-|microcode|   |||            ||         ||
-       <-|Memory   |   |||            \/         ||
-       <-+---------+   ||| 8 +----------------+  ||
-              /\       |||<==|       ALU      |<=++
+
+
+                       bus
+      +------------+ 8 ||| 8 +----------------+
+      |instruction |<=>|||<=>|   A register   |
+      |register    |   |||   +----------------+       
+      +------------+   ||| 4 +-----------+  ||
+              ||8      |||==>|calculation|  ||
+              \/       |||   | register  |  ||8
+       <-+---------+   |||   +-----------+  ||
+       <-|microcode|   |||         ||4      ||
+       <-|Memory   |   |||         \/       \/
+       <-+---------+   ||| 8 +----------------+
+              /\       |||<==|       ALU      |
               ||4      |||   +----------------+
 +-----+  +---------+ 8 |||        /\     
-|clock|--|12program|<=>|||        ||8    
+|clock|--|12address|<=>|||        ||8    
 +-----+  | counter |   ||| 8 +----------+ 
          +---------+   |||==>|B register|
           +--------+ 8 |||   +----------+
-          | memory |<==||| 8 +--------+ 8+-------+
-          |address |   |||<=>| stack  |<=| stack |
-          +--------+   |||   | memory |  |counter|
+          |address |<==||| 8 +--------+ 8+-------+
+          |register|   |||<=>| stack  |<=| stack |
+          +--------+   |||   | Memory |  |counter|
               ||8      |||   +--------+  +-------+
               \/       ||| 8 +---------------+       
           +--------+ 8 |||<==|input register |<== = =
           |program |==>|||   +---------------+<-- - -   
-          | memory |   ||| 8 +---------------+      
+          | Memory |   ||| 8 +---------------+      
           +--------+   |||==>|output register|== = >   
                        |||   +---------------+-- - >   
 
@@ -49,15 +49,15 @@ F: HLT					- Stops clock ticking
 Microcode Page Flags:
 	ALU:
 		-Overflow
-		-Zero
+		-Output Zero
 
 Microcode Flags:
 	Reads:
 		0: - - -
-		1: A Register
+		1: Address Counter
 		2: Program Memory
 		3: Instruction Register
-		4: Program Counter
+		4: A Register
 		5: Input Register
 		6: Stack Memory
 		7: ALU
@@ -71,8 +71,8 @@ Microcode Flags:
 		F: - - -
 	Writes:
 		0: - - -
-		1: Program Counter
-		2: Memory Address
+		1: Address Counter
+		2: Address Register
 		3: Program Memory
 		4: Instruction Register
 		5: A Register
