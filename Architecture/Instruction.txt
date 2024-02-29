@@ -13,7 +13,7 @@ B: POP					- Pop data from FILO stack and write A register
 C: INP					- Read data from input and write A register
 D: OUT					- Read data from A register and write output
 E: 
-F: HLT					- Stops clock ticking
+F:
 
 
                        bus
@@ -86,8 +86,6 @@ Microcode Flags:
 		D: - - -
 		E: - - -
 		F: - - -
-	Clock : 
-		-Halt 
 	Address Counter: 
 		-Count up
 	Stack Counter:
