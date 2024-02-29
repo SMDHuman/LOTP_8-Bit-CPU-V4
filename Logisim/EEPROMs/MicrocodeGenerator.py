@@ -40,11 +40,16 @@ PSH = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, R_AREG|W_SMEM, STCKCOUNTUP, R
 POP = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, STCKCOUNTDOWN, W_AREG|R_SMEM, RTSMICROCOUNT]
 INP = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, W_AREG|R_INREG, RTSMICROCOUNT]
 OUT = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, R_AREG|W_OUTREG, RTSMICROCOUNT]
-HLT = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, CLKHALT, RTSMICROCOUNT]
+HLT = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, CLKHALT | RTSMICROCOUNT]
+
+BOOTLOADER = [[R_ADCOUNT|W_ADREG, ADCOUNTUP, 0               , R_AREG|W_OUTREG, R_INREG|W_PMEM, R_ADCOUNT|W_AREG, RTSMICROCOUNT    , 0        , 0              , 0             , 0               ,  R_ADCOUNT|W_BREG], # Zero 0, Overflow 0
+			  [R_ADCOUNT|W_ADREG, ADCOUNTUP, R_ADCOUNT|W_BREG, 0              , 0             , 0               , 0                , 0        , 0              , 0             , 0               ,  R_ADCOUNT|W_BREG,  R_ADCOUNT|W_OUTREG,  R_ADCOUNT|W_ADREG, CLKHALT | RTSMICROCOUNT], # Zero 1, Overflow 0
+              [0], # Zero 0, Overflow 1
+              [R_ADCOUNT|W_ADREG, ADCOUNTUP, 0               , 0              , 0             , 0               , R_ADCOUNT|W_ADREG, ADCOUNTUP, R_AREG|W_OUTREG, R_INREG|W_PMEM, R_ADCOUNT|W_AREG]] # Zero 1, Overflow 1
 
 
 instructions = [NON, LDA, LAP, STA, LDB, CAL, ATA, JMP, JOF, JEZ, PSH, POP, INP, OUT, NON, HLT]
-microcodeEEPROM = [0]*2**10
+microcodeEEPROM = [0]*2**11
 for i, inst in enumerate(instructions):
 	if(type(inst[0]) != list):
 		inst = [inst]*4
@@ -52,11 +57,20 @@ for i, inst in enumerate(instructions):
 	for j, cond in enumerate(inst):
 		for n, code in enumerate(cond):
 			address = (j<<8)| (i<<4) | n
+			print(bin(address))
 			microcodeEEPROM[address] = code
+
+for i in range(16):
+	for j, cond in enumerate(BOOTLOADER):
+		for n, code in enumerate(cond):
+			print(code)
+			address = (1<<10) | (j<<8)| (i<<4) | n
+			microcodeEEPROM[address] = code
+
 print(microcodeEEPROM)
 
-microcodeEEPROM_A = [0]*2**10
-microcodeEEPROM_B = [0]*2**10
+microcodeEEPROM_A = [0]*2**11
+microcodeEEPROM_B = [0]*2**11
 for address, code in enumerate(microcodeEEPROM):
 	microcodeEEPROM_A[address] = code & 0x00FF
 	microcodeEEPROM_B[address] = (code & 0xFF00)>>8
