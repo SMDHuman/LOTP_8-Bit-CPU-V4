@@ -45,7 +45,7 @@ HLT = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, CLKHALT | RTSMICROCOUNT]
 BOOTLOADER = [[R_ADCOUNT|W_ADREG, ADCOUNTUP, 0               , R_AREG|W_OUTREG, R_INREG|W_PMEM, R_ADCOUNT|W_AREG, RTSMICROCOUNT    , 0        , 0              , 0             , 0               ,  R_ADCOUNT|W_BREG], # Zero 0, Overflow 0
 			  [R_ADCOUNT|W_ADREG, ADCOUNTUP, R_ADCOUNT|W_BREG, 0              , 0             , 0               , 0                , 0        , 0              , 0             , 0               ,  R_ADCOUNT|W_BREG,  R_ADCOUNT|W_OUTREG,  R_ADCOUNT|W_ADREG, CLKHALT | RTSMICROCOUNT], # Zero 1, Overflow 0
               [0], # Zero 0, Overflow 1
-              [R_ADCOUNT|W_ADREG, ADCOUNTUP, 0               , 0              , 0             , 0               , R_ADCOUNT|W_ADREG, ADCOUNTUP, R_AREG|W_OUTREG, R_INREG|W_PMEM, R_ADCOUNT|W_AREG]] # Zero 1, Overflow 1
+              [R_ADCOUNT|W_ADREG, ADCOUNTUP, 0               , 0              , 0             , 0               , R_ADCOUNT|W_ADREG, ADCOUNTUP, R_AREG|W_OUTREG, R_INREG|W_PMEM, R_ADCOUNT|W_AREG, CLKHALT | RTSMICROCOUNT]] # Zero 1, Overflow 1
 
 
 instructions = [NON, LDA, LAP, STA, LDB, CAL, ATA, JMP, JOF, JEZ, PSH, POP, INP, OUT, NON, HLT]
