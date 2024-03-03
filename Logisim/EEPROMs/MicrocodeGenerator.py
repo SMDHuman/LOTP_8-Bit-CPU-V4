@@ -50,21 +50,21 @@ BOOTLOADER = [[R_ADCOUNT|W_ADREG, ADCOUNTUP, 0               , R_AREG|W_OUTREG, 
 
 instructions = [NON, LDA, LAP, STA, LDB, CAL, ATA, JMP, JOF, JEZ, PSH, POP, INP, OUT, NON, HLT]
 microcodeEEPROM = [0]*2**11
-for i, inst in enumerate(instructions):
+for instCode, inst in enumerate(instructions):
 	if(type(inst[0]) != list):
 		inst = [inst]*4
 
-	for j, cond in enumerate(inst):
-		for n, code in enumerate(cond):
-			address = (j<<8)| (i<<4) | n
+	for flags, cond in enumerate(inst):
+		for instMicrocode, code in enumerate(cond):
+			address = (0<<10) | (flags<<8)| (instMicrocode<<4) | instCode
 			print(bin(address))
 			microcodeEEPROM[address] = code
 
-for i in range(16):
-	for j, cond in enumerate(BOOTLOADER):
-		for n, code in enumerate(cond):
+for instCode in range(16):
+	for flags, cond in enumerate(BOOTLOADER):
+		for instMicrocode, code in enumerate(cond):
 			print(code)
-			address = (1<<10) | (j<<8)| (i<<4) | n
+			address = (1<<10) | (flags<<8)| (instMicrocode<<4) | instCode
 			microcodeEEPROM[address] = code
 
 print(microcodeEEPROM)
