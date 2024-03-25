@@ -1,20 +1,20 @@
 R_ADCOUNT = 0b0001 # Read Address Counter
-R_PMEM = 0b0010 # Read Program Memory
-R_IREG = 0b0011 # Read Instruction Register
-R_AREG = 0b0100 # Read A Register
-R_INREG = 0b0101 # Read Input Register
-R_SMEM = 0b0110 # Read Stack Memory
-R_ALU = 0b0111 # Read ALU
+R_PMEM    = 0b0010 # Read Program Memory
+R_IREG    = 0b0011 # Read Instruction Register
+R_AREG    = 0b0100 # Read A Register
+R_INREG   = 0b0101 # Read Input Register
+R_SMEM    = 0b0110 # Read Stack Memory
+R_ALU     = 0b0111 # Read ALU
 
 W_ADCOUNT = 0b00010000 # Write Address Counter
-W_ADREG = 0b00100000 # Write Adress Register
-W_PMEM = 0b00110000 # Write Program Memory
-W_IREG = 0b01000000 # Write Instruction Register
-W_AREG = 0b01010000 # Write A Register
-W_BREG = 0b01100000 # Write B Register
-W_CALREG = 0b01110000 # Write Calculation Register
-W_OUTREG = 0b10000000 # Write Output Register
-W_SMEM = 0b10010000 # Write Stack Memory
+W_ADREG   = 0b00100000 # Write Adress Register
+W_PMEM    = 0b00110000 # Write Program Memory
+W_IREG    = 0b01000000 # Write Instruction Register
+W_AREG    = 0b01010000 # Write A Register
+W_BREG    = 0b01100000 # Write B Register
+W_CALREG  = 0b01110000 # Write Calculation Register
+W_OUTREG  = 0b10000000 # Write Output Register
+W_SMEM    = 0b10010000 # Write Stack Memory
 
 CLKHALT = 0b0000000100000000 # Clock Halt
 ADCOUNTUP = 0b0000001000000000 # Address Counter Up
@@ -22,6 +22,8 @@ STCKCOUNTUP = 0b0000010000000000 # Stack Counter Up
 STCKCOUNTDOWN = 0b0000100000000000 # Stack Counter Down
 RTSMICROCOUNT = 0b0001000000000000 # Reset Microcode Counter
 
+# ---- ==== ---- === ---- ==== ---- === ---- ==== ---- ===
+reverseMap_B = 0b0001000000000000
 # ---- ==== ---- === ---- ==== ---- === ---- ==== ---- ===
 
 NON = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, RTSMICROCOUNT]
@@ -40,7 +42,7 @@ PSH = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, R_AREG|W_SMEM, STCKCOUNTUP, R
 POP = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, STCKCOUNTDOWN, W_AREG|R_SMEM, RTSMICROCOUNT]
 INP = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, W_AREG|R_INREG, RTSMICROCOUNT]
 OUT = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, R_AREG|W_OUTREG, RTSMICROCOUNT]
-HLT = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, CLKHALT | RTSMICROCOUNT]
+HLT = [R_ADCOUNT|W_ADREG, R_PMEM|W_IREG|ADCOUNTUP, CLKHALT|RTSMICROCOUNT]
 
 BOOTLOADER = [[R_ADCOUNT|W_ADREG, ADCOUNTUP, 0               , R_AREG|W_OUTREG, R_INREG|W_PMEM, R_ADCOUNT|W_AREG, RTSMICROCOUNT    , 0        , 0              , 0             , 0               ,  R_ADCOUNT|W_BREG], # Zero 0, Overflow 0
 			  [R_ADCOUNT|W_ADREG, ADCOUNTUP, R_ADCOUNT|W_BREG, 0              , 0             , 0               , 0                , 0        , 0              , 0             , 0               ,  R_ADCOUNT|W_BREG,  R_ADCOUNT|W_OUTREG,  R_ADCOUNT|W_ADREG, CLKHALT | RTSMICROCOUNT], # Zero 1, Overflow 0
@@ -67,13 +69,14 @@ for instCode in range(16):
 			address = (1<<10) | (flags<<8)| (instMicrocode<<4) | instCode
 			microcodeEEPROM[address] = code
 
-print(microcodeEEPROM)
 
 microcodeEEPROM_A = [0]*2**11
 microcodeEEPROM_B = [0]*2**11
 for address, code in enumerate(microcodeEEPROM):
-	microcodeEEPROM_A[address] = code & 0x00FF
-	microcodeEEPROM_B[address] = (code & 0xFF00)>>8
+	microcodeEEPROM_A[address] = code & 0x00FF 
+	microcodeEEPROM_B[address] = ((code & 0xFF00)^ reverseMap_B)>>8
+
+print(microcodeEEPROM_B)
 
 with open("MicrocodeEEPROM_A", "w") as f:
 	f.write("v2.0 raw\n")
